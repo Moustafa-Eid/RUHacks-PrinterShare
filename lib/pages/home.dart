@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
@@ -21,21 +22,74 @@ class _HomeState extends State<Home> {
       target: LatLng(37.43296265331129, -122.08832357078792),
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
+  int mapBottomPadding;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Stack (
-          children: <Widget>[
-            GoogleMap(
-              mapType: MapType.normal,
-              initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller){
-                _controller.complete(controller);
-              },
-            )
-          ],
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          child: Container(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.home),
+                      onPressed: () {},
+                    ),
+                    Text(
+                      "Home"
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.add_circle_outline),
+                      onPressed: () {},
+                    ),
+                    Text(
+                        "Add"
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.view_agenda),
+                      onPressed: () {},
+                    ),
+                    Text(
+                        "Manage"
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+        body: SafeArea(
+          child: Stack (
+            children: <Widget>[
+              GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: _kGooglePlex,
+                onMapCreated: (GoogleMapController controller){
+                  _controller.complete(controller);
+                },
+                zoomControlsEnabled: false,
+                zoomGesturesEnabled: true,
+              )
+            ],
 
+          ),
         )
     );
   }
