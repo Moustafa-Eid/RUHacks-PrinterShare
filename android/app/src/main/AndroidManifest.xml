@@ -10,7 +10,7 @@
         android:label="printershare"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDCp3h4UhlpB-iA0eyY7JPv6L8HTT58H9g"/>
+            android:value=""/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
