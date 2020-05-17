@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:async';
+import 'package:printershare/pages/mapHome.dart';
+import 'package:printershare/pages/addListing.dart';
+import 'package:printershare/pages/manage.dart';
 
 
 class Home extends StatefulWidget {
@@ -10,88 +11,48 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Completer<GoogleMapController> _controller = Completer();
+  int _currentIndex = 0;
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
+  final List<Widget> _children = [
+    MapHome(),
+    Add(),
+    Manage()
+  ];
 
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
-  int mapBottomPadding;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _currentIndex = 0;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          child: Container(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.home),
-                      onPressed: () {},
-                    ),
-                    Text(
-                      "Home"
-                    )
-                  ],
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.add_circle_outline),
-                      onPressed: () {},
-                    ),
-                    Text(
-                        "Add"
-                    )
-                  ],
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.view_agenda),
-                      onPressed: () {},
-                    ),
-                    Text(
-                        "Manage"
-                    )
-                  ],
-                )
-              ],
+        body: _children[_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: onTabTapped,
+          currentIndex: _currentIndex,
+          backgroundColor: Colors.white,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Home')
             ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.add_circle_outline),
+                title: Text('Add')
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.view_agenda),
+                title: Text('Manage')
+            )
+          ],
           ),
-        ),
-        body: SafeArea(
-          child: Stack (
-            children: <Widget>[
-              GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: _kGooglePlex,
-                onMapCreated: (GoogleMapController controller){
-                  _controller.complete(controller);
-                },
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: true,
-              )
-            ],
-
-          ),
-        )
     );
   }
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 }
-
