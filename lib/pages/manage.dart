@@ -16,14 +16,15 @@ class _ManageState extends State<Manage> {
   List<String> products = List<String>();
 
 
-  Future<List<String>> getData() async {
-    List<String> products = List<String>();
+  Future<List<Map>> getData() async {
+    List<Map> dataIncoming = List<Map>();
     final response = await http.get('https://us-central1-ruhacks2020-f7a7e.cloudfunctions.net/getJobs');
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      await json.decode(response.body).forEach((k,v) => products.add(v['product']));
-      return products;
+      print(json.decode(response.body));
+      await json.decode(response.body).forEach((k,v) => dataIncoming.add(v));
+      return dataIncoming;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -48,12 +49,40 @@ class _ManageState extends State<Manage> {
         return projectSnap.data != null ? ListView.builder(
           itemCount: projectSnap.data.length,
           itemBuilder: (context, index) {
-            String project = projectSnap.data[index];
+            String project = projectSnap.data[index]['product'];
             return Card(
               child: ListTile(
                 contentPadding: EdgeInsets.all(10.0),
                 onTap: () {},
-                title: Text('$project'),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Text('Distance'),
+                        Icon(Icons.location_on),
+                      ],
+                    ),
+                    Text('\$${projectSnap.data[index]['price']}'),
+                    Container(
+                      padding: EdgeInsets.all(2.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.blue,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.call,
+                            color: Colors.white,),
+                          Text("Contact",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),)
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             );
           },

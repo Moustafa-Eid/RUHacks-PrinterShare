@@ -2,12 +2,11 @@ import 'dart:convert';
 
 
 class StartJob {
-  StartJob({this.name,this.address});
+  StartJob({this.name,this.address,this.cost,this.phoneNumber,this.email});
 
   String name;
   String address;
-  double cost;
-  int numPrintersAvailable;
+  String cost;
   String phoneNumber;
   String email;
 
@@ -15,12 +14,11 @@ class StartJob {
   String createListing () {
 
     Map<String, dynamic> listing = {
-      'name' : this.name,
-      'address' : this.address,
-      'phone' : this.phoneNumber,
+      'owner' : this.name,
+      'location' : this.address,
+      'info' : this.phoneNumber,
       'email' : this.email,
-      'cost' : this.cost,
-      'numPrinters' : this.numPrintersAvailable
+      'price' : this.cost,
     };
 
     return jsonEncode(listing);

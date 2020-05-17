@@ -17,17 +17,20 @@ class _MapHomeState extends State<MapHome> {
   static LatLng _initialPosition;
   static LatLng _lastMapPosition = _initialPosition;
   bool done = false;
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{}; // CLASS MEMBER, MAP OF MARKS
 
 
 
-  Future<List<String>> getData() async {
-    List<String> products = List<String>();
+
+  Future<List<Map>> getData() async {
+    List<Map> dataIncoming = List<Map>();
     final response = await http.get('https://us-central1-ruhacks2020-f7a7e.cloudfunctions.net/getJobs');
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      await json.decode(response.body).forEach((k,v) => products.add(v['product']));
-      return products;
+      print(json.decode(response.body));
+      await json.decode(response.body).forEach((k,v) => dataIncoming.add(v));
+      return dataIncoming;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -46,12 +49,40 @@ class _MapHomeState extends State<MapHome> {
         return projectSnap.data != null ? ListView.builder(
           itemCount: projectSnap.data.length,
           itemBuilder: (context, index) {
-            String project = projectSnap.data[index];
+            String project = projectSnap.data[index]['product'];
             return Card(
               child: ListTile(
                 contentPadding: EdgeInsets.all(10.0),
                 onTap: () {},
-                title: Text('$project'),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Text('Distance'),
+                        Icon(Icons.location_on),
+                      ],
+                    ),
+                    Text('\$${projectSnap.data[index]['price']}'),
+                    Container(
+                      padding: EdgeInsets.all(2.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.blue,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.call,
+                          color: Colors.white,),
+                          Text("Contact",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),)
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             );
           },
@@ -118,18 +149,24 @@ class _MapHomeState extends State<MapHome> {
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
-          color: Colors.blue,
+          color: Colors.white,
         ),
         width: MediaQuery.of(context).size.width/1.1,
         height: 40,
         child: Center(
-          child: Text('Header'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.arrow_drop_up),
+              Text('Header'),
+            ],
+          ),
         ),
       ),
       expandableContent: Container(
         height: 500,
         width: MediaQuery.of(context).size.width/1.1,
-        color: Colors.green,
+        color: Colors.grey[300],
         child: projectWidget(),
       ),
     );
