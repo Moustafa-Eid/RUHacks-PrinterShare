@@ -17,6 +17,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  http: ^0.12.1
   expandable_bottom_sheet: ^0.2.1+1
   geolocator: ^5.3.1
   google_maps_flutter: ^0.5.27+2
