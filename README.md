@@ -1,3 +1,8 @@
+# RU Hacks Hackathon Project - PrinterShare
+
+## Check out our devpost for pics, videos and more info!
+## Devpost: https://devpost.com/software/printershare
+
 ## Inspiration
 Lack of 3D printing access in the community.
 
