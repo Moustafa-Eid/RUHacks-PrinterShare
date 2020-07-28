@@ -1,7 +1,10 @@
 # RU Hacks Hackathon Project - PrinterShare
+![PrinterShare](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_thumbnail_photos/001/093/355/datas/medium.png)
 
 ## Check out our devpost for pics, videos and more info!
 ## Devpost: https://devpost.com/software/printershare
+
+### Video Demo: https://youtu.be/x2ZxfAADhp0
 
 ## Inspiration
 Lack of 3D printing access in the community.
